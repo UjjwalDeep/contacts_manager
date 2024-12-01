@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="en"
+<html
+        class="dark"
+        lang="en"
       th:fragment="parent(content,title,script)"
       xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -11,21 +13,13 @@
     <link rel="stylesheet" data-th-link="@{'/css/output.css'}"/>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
-<body>
+<body class="dark:bg-gray-900 dark:text-white">
 
 <!--    common header-->
 
-    <ul>
-        <li>
-            <a data-th-href="@{'/home'}">Home</a>
-        </li>
-        <li>
-            <a data-th-href="@{'/services'}">Services</a>
-        </li>
-        <li>
-            <a data-th-href="@{'/about'}">About</a>
-        </li>
-    </ul>
+    <div data-th-replace="~{navbar::navbar}">
+
+    </div>
 
 <!--    main content-->
     <div class="p-4">
