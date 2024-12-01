@@ -1,0 +1,12 @@
+<div  class="parent-fragment" th:fragment="parent(content)" xmlns:th="http://www.w3.org/1999/xhtml">
+    <h1>This is parent fragment</h1>
+    <p>lorem ipsum dolor sit amet </p>
+    <div th:replace="${content}"></div>
+</div>
+
+<div th:fragment="test(content)">
+
+    <div th:replace="${content}">
+    <h1>This text will be replaced</h1>
+    </div>
+</div>
