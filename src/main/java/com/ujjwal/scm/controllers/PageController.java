@@ -6,19 +6,23 @@ import com.ujjwal.scm.helpers.Message;
 import com.ujjwal.scm.helpers.MessageType;
 import com.ujjwal.scm.services.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class PageController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/")
+    public String index(){
+        return "redirect:/home";
+    }
 
     @RequestMapping("/home")
     public String home(Model model){
@@ -65,18 +69,15 @@ public class PageController {
 
     @RequestMapping(value = "/do-register",method = RequestMethod.POST)
     //@PostMapping("/do-register")
-    public String processRegister(@ModelAttribute UserForm userForm, HttpSession session){
+    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult rBindingResult, HttpSession session){
         System.out.println("Processing Registration");
         System.out.println(userForm);
 
-//        User user = User.builder()
-//                .name(userForm.getName())
-//                .email(userForm.getEmail())
-//                .password(userForm.getPassword())
-//                .phoneNumber(userForm.getPhoneNumber())
-//                .about(userForm.getAbout())
-//                .profilePic("file:///C:/Users/ujjwa/Downloads/man.png")
-//                .build();
+        //validate form data
+
+        if(rBindingResult.hasErrors()){
+            return "register";
+        }
 
         User user = new User();
         user.setName(userForm.getName());

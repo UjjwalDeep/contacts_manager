@@ -33,7 +33,9 @@
                         data-th-action="@{/do-register}"
                         method="post"
                         data-th-object="${userForm}"
-                        class="mt-5">
+                        class="mt-5"
+                        novalidate
+                >
 
                 <!--    Name Field-->
                     <div class="mb-5">
@@ -46,6 +48,14 @@
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                placeholder="Enter your name"
                                required />
+
+                        <p
+                                data-th-if="${#fields.hasErrors('name')}"
+                                data-th-errors="*{name}"
+                            class="text-red-600 px-1 py-2"  >
+                            Name is required
+                        </p>
+
                     </div>
                     <!--    Email Field-->
                     <div class="mb-5">
@@ -58,6 +68,13 @@
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                placeholder="example@.com"
                                required />
+
+                        <p
+                                data-th-if="${#fields.hasErrors('email')}"
+                                data-th-errors="*{email}"
+                                class="text-red-600 px-1 py-2"  >
+                            Name is required
+                        </p>
                     </div>
 
                     <!--  Password Field-->
@@ -71,6 +88,12 @@
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 
                                required />
+                        <p
+                                data-th-if="${#fields.hasErrors('password')}"
+                                data-th-errors="*{password}"
+                                class="text-red-600 px-1 py-2"  >
+                            Name is required
+                        </p>
                     </div>
                     <!--  Phone Field-->
                     <div class="mb-5">
@@ -83,6 +106,12 @@
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 
                                required />
+                        <p
+                                data-th-if="${#fields.hasErrors('phoneNumber')}"
+                                data-th-errors="*{phoneNumber}"
+                                class="text-red-600 px-1 py-2"  >
+                            Name is required
+                        </p>
                     </div>
 
                     <!-- about text area -->
@@ -101,6 +130,12 @@
                                 placeholder="Write Here...">
 
                         </textarea>
+                        <p
+                                data-th-if="${#fields.hasErrors('about')}"
+                                data-th-errors="*{about}"
+                                class="text-red-600 px-1 py-2"  >
+                            Name is required
+                        </p>
 
                     </div>
 
