@@ -50,7 +50,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,OAuthAuthenticationSuccessHandler handler) throws Exception {
 
         //configuration
         httpSecurity.authorizeHttpRequests(authorize ->{
@@ -64,20 +64,27 @@ public class SecurityConfig {
         httpSecurity.formLogin(formLogin ->{
             formLogin.loginPage("/login")
                     .loginProcessingUrl("/authenticate")
-                    .successForwardUrl("/user/dashboard")
+                    .successForwardUrl("/user/profile")
                     //.failureForwardUrl("/login?error=true")
                     .usernameParameter("email")
                     .passwordParameter("password");
         });
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
+
+
+    // O Auth configurations
+
+        httpSecurity.oauth2Login(oauth2 -> {
+            oauth2.loginPage("/login")
+                    .successHandler(handler);
+        });
+
         httpSecurity.logout(logoutForm -> {
             logoutForm.logoutUrl("/do-logout")
                     .logoutSuccessUrl("/login?logout=true");
 
         });
-
-
         return httpSecurity.build();
     }
 

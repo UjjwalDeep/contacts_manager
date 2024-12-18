@@ -1,10 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" th:replace="~{base::parent(~{::#content},~{::title},~{::script})}" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title data-th-text="${loggedInUser.name} + ' | SCM | '">Profile Page</title>
 </head>
 <body>
-    This is user profile
+
+<div id="content">
+
+<!--    sidebar-->
+
+    <!--  User is logged in : sidebar-->
+    <div th:if="${loggedInUser}">
+        <div th:replace="~{user/sidebar::sidebar}"></div>
+    </div>
+
+<div class="pl-64 pt-20"  style="height: 1000px">
+
+    <div class="flex justify-center flex-col items-center">
+    <h1>Welcome to Profile Page</h1>
+    <p>
+        lorem ipsum dolor sit amet consectetur
+    </p>
+    </div>
+</div>
+</div>
+
+<script>
+    console.log("profile page");
+</script>
 </body>
 </html>

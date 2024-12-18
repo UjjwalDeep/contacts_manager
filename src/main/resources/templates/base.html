@@ -18,7 +18,21 @@
 
 <!--    common header-->
 
-    <div data-th-replace="~{navbar::navbar}">
+
+<!--  User is logged in : navbar-->
+ <div data-th-if="${loggedInUser}">
+
+     <div data-th-replace="~{user/user_navbar::user-navbar}"></div>
+ </div>
+
+
+
+<!--    User is not logged in-->
+ <div data-th-unless="${loggedInUser}">
+     <div data-th-replace="~{navbar::navbar}">
+ </div>
+
+
 
     </div>
 
@@ -34,7 +48,7 @@
 <!--    <footer class="p-4">Footer: Learn with ujjwal</footer>-->
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-    <script data-th-src="@{js/script.js}"></script>
+    <script data-th-src="@{../js/script.js}"></script>
     <th:block data-th-replace="${script}"></th:block>
 </body>
 </html>
