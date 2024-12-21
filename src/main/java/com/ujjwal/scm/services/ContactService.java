@@ -1,6 +1,7 @@
 package com.ujjwal.scm.services;
 
 import com.ujjwal.scm.entities.Contact;
+import com.ujjwal.scm.entities.User;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface ContactService {
     List<Contact> search(String name, String email, String phoneNumber);
 
     List<Contact> getByUserId(String userId);
+
+    List<Contact> getByUser(User user);
 }

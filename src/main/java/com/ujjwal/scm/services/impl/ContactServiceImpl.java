@@ -1,6 +1,7 @@
 package com.ujjwal.scm.services.impl;
 
 import com.ujjwal.scm.entities.Contact;
+import com.ujjwal.scm.entities.User;
 import com.ujjwal.scm.helpers.ResourceNotFoundException;
 import com.ujjwal.scm.repo.ContactRepo;
 import com.ujjwal.scm.services.ContactService;
@@ -61,5 +62,10 @@ public class ContactServiceImpl implements ContactService {
 
         return contactRepo.findByUserId(userId);
 
+    }
+
+    @Override
+    public List<Contact> getByUser(User user) {
+        return contactRepo.findByUser(user);
     }
 }
