@@ -2,6 +2,7 @@ package com.ujjwal.scm.services;
 
 import com.ujjwal.scm.entities.Contact;
 import com.ujjwal.scm.entities.User;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -17,9 +18,17 @@ public interface ContactService {
 
     void delete(String id);
 
-    List<Contact> search(String name, String email, String phoneNumber);
+    Page<Contact> searchByName(String nameKeyword, int page, int size,
+                               String sortBy, String sortDir, User user);
+
+    Page<Contact> searchByEmail(String emailKeyword, int page, int size,
+                                String sortBy, String sortDir, User user);
+
+    Page<Contact> searchByPhoneNumber(String phoneNumberKeyword, int page, int size,
+                                      String sortBy, String sortDir, User user);
 
     List<Contact> getByUserId(String userId);
 
-    List<Contact> getByUser(User user);
+    Page<Contact> getByUser(User user, int page,int size,
+                            String sortBy, String sortDir);
 }

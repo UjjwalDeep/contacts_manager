@@ -6,6 +6,9 @@ import com.ujjwal.scm.helpers.ResourceNotFoundException;
 import com.ujjwal.scm.repo.ContactRepo;
 import com.ujjwal.scm.services.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +31,27 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public Contact update(Contact contact) {
-        return null;
+        var contactOld = contactRepo.findById(contact.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Contact not found with given id "+ contact.getId()));
+
+        contactOld.setName(contact.getName());
+        contactOld.setFavorite(contact.isFavorite());
+        contactOld.setPhoneNumber(contact.getPhoneNumber());
+        contactOld.setEmail(contact.getEmail());
+        contactOld.setDescription(contact.getDescription());
+        contactOld.setAddress(contact.getAddress());
+        contactOld.setWebsiteLink(contact.getWebsiteLink());
+        contactOld.setLinkedinLink(contact.getLinkedinLink());
+
+        if(contact.getPicture() != null &&
+         !contact.getPicture().isEmpty()) {
+
+            contactOld.setPicture(contact.getPicture());
+            contactOld.setCloudinaryImagePublicId(contact.getCloudinaryImagePublicId());
+
+        }
+        return contactRepo.save(contactOld);
+
     }
 
     @Override
@@ -53,9 +76,38 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List<Contact> search(String name, String email, String phoneNumber) {
-        return List.of();
+    public Page<Contact> searchByName(String nameKeyword, int page, int size, String sortBy, String sortDir, User user) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        var pageable = PageRequest.of(page,size,sort);
+
+        return contactRepo.findByUserAndNameContaining(user,nameKeyword,pageable);
+
     }
+
+    @Override
+    public Page<Contact> searchByEmail(String emailKeyword, int page, int size, String sortBy, String sortDir, User user) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        var pageable = PageRequest.of(page,size,sort);
+
+        return contactRepo.findByUserAndEmailContaining(user,emailKeyword,pageable);
+    }
+
+    @Override
+    public Page<Contact> searchByPhoneNumber(String phoneNumberKeyword, int page, int size, String sortBy, String sortDir, User user) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        var pageable = PageRequest.of(page,size,sort);
+
+        return contactRepo.findByUserAndPhoneNumberContaining(user,phoneNumberKeyword,pageable);
+
+
+    }
+
 
     @Override
     public List<Contact> getByUserId(String userId) {
@@ -65,7 +117,13 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List<Contact> getByUser(User user) {
-        return contactRepo.findByUser(user);
+    public Page<Contact> getByUser(User user, int page, int size,
+                                   String sortBy, String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        var pageable = PageRequest.of(page,size,sort);
+
+        return contactRepo.findByUser(user,pageable);
     }
 }
