@@ -16,6 +16,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    @Autowired
+    private AuthFailureHandler authFailureHandler;
+
 //    @Bean
 //    public UserDetailsService userDetailsService(){
 //
@@ -68,6 +71,8 @@ public class SecurityConfig {
                     //.failureForwardUrl("/login?error=true")
                     .usernameParameter("email")
                     .passwordParameter("password");
+
+            formLogin.failureHandler(authFailureHandler);
         });
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);

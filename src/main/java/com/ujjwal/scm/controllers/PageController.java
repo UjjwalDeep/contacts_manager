@@ -86,6 +86,7 @@ public class PageController {
         user.setAbout(userForm.getAbout());
         user.setProfilePic("file:///C:/Users/ujjwa/Downloads/man.png");
         user.setPhoneNumber(userForm.getPhoneNumber());
+        user.setEnabled(false);
 
         User savedUser = userService.saveUser(user);
         System.out.println("user saved"+savedUser);
