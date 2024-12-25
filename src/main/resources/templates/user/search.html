@@ -27,7 +27,9 @@
 
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
+                <div class="flex justify-between items-center px-4">
                 <form
+
                         data-th-object="${contactSearchForm}"
                          data-th-action="@{/user/contacts/search}">
                     <div class="flex space-x-3 p-5 items-center justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
@@ -68,7 +70,17 @@
                     </div>
                 </form>
 
+                    <div>
+                        <button type="button"
+                                onclick="exportData()"
+                                class="px-3 py-2 bg-green-800 text-white rounded">
+                            Export</button>
+                    </div>
+
+                </div>
+
                 <table
+                        id="contact_table"
                         data-th-unless="${contacts.empty}"
                         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -207,13 +219,26 @@
     <div data-th-replace="~{user/contact_modals::contact-modals}"></div>
     </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/@linways/table-to-excel@1.0.4/dist/tableToExcel.min.js"></script>
 <script data-th-src="@{/js/contacts.js}">
 
 </script>
 
 <script>
     console.log("search contacts page");
+</script>
+<script>
+    function exportData() {
+        alert("exportData");
+
+        TableToExcel.convert(document.getElementById("contact_table"), {
+        name: "contacts.xlsx",
+        sheet: {
+        name: "Sheet 1"
+        }
+});
+
+    }
 </script>
 </body>
 </html>
