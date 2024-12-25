@@ -2,8 +2,10 @@ package com.ujjwal.scm.services.impl;
 
 import com.ujjwal.scm.entities.User;
 import com.ujjwal.scm.helpers.AppConstants;
+import com.ujjwal.scm.helpers.Helper;
 import com.ujjwal.scm.helpers.ResourceNotFoundException;
 import com.ujjwal.scm.repo.UserRepo;
+import com.ujjwal.scm.services.EmailService;
 import com.ujjwal.scm.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public User saveUser(User user) {
         String userId = UUID.randomUUID().toString();
@@ -39,7 +44,16 @@ public class UserServiceImpl implements UserService {
 
         logger.info(user.getProvider().toString());
 
-        return userRepo.save(user);
+
+        String emailToken = UUID.randomUUID().toString();
+        user.setEmailToken(emailToken);
+        var savedUser = userRepo.save(user);
+        String emailLink = Helper.getLinkForEmailVerification(emailToken,savedUser.getUserId());
+
+        emailService.sendEmail(savedUser.getEmail(), "Email Verification: SCM", emailLink);
+
+        return savedUser;
+
     }
 
     @Override
